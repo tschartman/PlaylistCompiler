@@ -10,7 +10,7 @@
             />
             <h5 class="title">{{ playlist.name }}</h5>
         </div>
-        <q-scroll-area style="height: 40vh;">
+        <q-scroll-area style="height: 45vh;">
         <div class="flex q-pa-md q-gutter-md justify-center">
             <div v-for="item in items" :key="item.track.id">
                 <div class="row justify-center text-subtitle2 square">
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { SPOTIFY_API } from 'babel-dotenv'
 export default {
   name: 'Tracks',
   props: { playlist: { type: Object } },
@@ -37,7 +38,7 @@ export default {
   methods: {
   },
   async created () {
-    const tracks = await this.$axios.get(`https://api.spotify.com/v1/playlists/${this.playlist.id}/tracks`)
+    const tracks = await this.$axios.get(`${SPOTIFY_API}/playlists/${this.playlist.id}/tracks`)
     this.items = tracks.data.items
   }
 }

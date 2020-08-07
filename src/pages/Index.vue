@@ -1,14 +1,26 @@
 <template>
   <div>
-    <Selection @makePlaylist="makePlaylist" @removeSong="removeSong" :tracks="selected" />
-    <q-separator />
-    <Playlists v-if="page === 'playlists'" @selectPlaylist="selectPlaylist" />
-    <Tracks v-else-if="page === 'tracks'" @goBack="back" @selectSong="selectSong" :playlist="playlist" />
-    <Created v-else-if="page === 'created'" @goBack="back" :tracks="createdList" />
+    <div v-if="$store.getters['auth/refresh']">
+      <Selection @makePlaylist="makePlaylist" @removeSong="removeSong" :tracks="selected" />
+      <q-separator />
+      <Playlists v-if="page === 'playlists'" @selectPlaylist="selectPlaylist" />
+      <Tracks v-else-if="page === 'tracks'" @goBack="back" @selectSong="selectSong" :playlist="playlist" />
+      <Created v-else-if="page === 'created'" @goBack="back" :tracks="createdList" />
+    </div>
+    <div v-else>
+      <div class="row justify-center">
+        <q-img class="q-my-lg" :src="$store.getters['style/dark'] ? 'spotify-light.png' : 'spotify.png'" style="width:125px; height:125px;"/>
+      </div>
+      <div class="row justify-center">
+        <q-btn flat size="large" label="Link Spotify" v-on:click="redirect()"></q-btn>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import pkceChallenge from 'pkce-challenge'
+import { REDIRECT_URI, SPOTIFY_ID, SPOTIFY_API } from 'babel-dotenv'
 import Playlists from 'components/Playlists'
 import Tracks from 'components/Tracks'
 import Selection from 'components/Selection'
@@ -33,7 +45,7 @@ export default {
     async makePlaylist () {
       if (this.selected.length > 0) {
         const tracks = this.selected.map(track => track.id).join(',')
-        const playlist = await this.$axios.get(`https://api.spotify.com/v1/recommendations?seed_tracks=${tracks}`)
+        const playlist = await this.$axios.get(`${SPOTIFY_API}/recommendations?seed_tracks=${tracks}`)
         this.createdList = playlist.data.tracks
         this.page = 'created'
       }
@@ -53,21 +65,16 @@ export default {
     back () {
       this.page = 'playlists'
     },
-    hashParser (hash) {
-      const object = {}
-      const attrs = hash.split('&')
-      attrs.forEach(a => {
-        const keyVal = a.split('=')
-        object[keyVal[0]] = keyVal[1]
-      })
-      return object
+    async redirect () {
+      const length = Math.floor((Math.random() * (128 - 43)) + 43)
+      const data = pkceChallenge(length)
+      await this.$store.dispatch('auth/setSecret', { secret: data.code_verifier })
+      window.location = `https://accounts.spotify.com/authorize?response_type=code&client_id=${SPOTIFY_ID}&code_challenge_method=S256&code_challenge=${data.code_challenge}&scope=playlist-read-collaborative%20playlist-modify-public%20playlist-read-private%20playlist-modify-private&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`
     }
   },
   async created () {
-    const hash = this.$route.hash
-    if (hash) {
-      const data = this.hashParser(hash.substring(1))
-      this.$axios.defaults.headers.common.Authorization = 'Bearer ' + data.access_token
+    if (this.$store.getters['auth/refresh'] && !this.$store.getters['auth/user'].id) {
+      this.$store.dispatch('auth/setUser')
     }
   }
 }

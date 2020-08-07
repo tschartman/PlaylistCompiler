@@ -8,7 +8,7 @@
                 {{ playlist.name }}
             </div>
             <q-card class="playlist-card"  @click="$emit('selectPlaylist', playlist)">
-                <q-img :src="playlist.images[0].url" />
+                <q-img v-if="playlist.images.length > 0" :src="playlist.images[0].url" />
             </q-card>
           </div>
         </div>
@@ -16,6 +16,7 @@
         <div class="q-pa-lg flex flex-center">
           <q-pagination
             v-model="current"
+            :color="$store.getters['style/dark'] ? 'grey' : 'black'"
             :max="Math.ceil(this.total / 10)"
             :direction-links="true"
             :boundary-links="true"
@@ -30,6 +31,7 @@
 </template>
 
 <script>
+import { SPOTIFY_API } from 'babel-dotenv'
 export default {
   name: 'Playlists',
   data: function () {
@@ -46,12 +48,12 @@ export default {
   },
   methods: {
     async grabPlaylist (offset) {
-      const playlists = await this.$axios.get(`https://api.spotify.com/v1/users/${}/playlists?limit=10&offset=${offset}`)
+      const playlists = await this.$axios.get(`${SPOTIFY_API}/users/${this.$store.getters['auth/user'].id}/playlists?limit=10&offset=${offset}`)
       this.playlists = playlists.data.items
     }
   },
   async created () {
-    const playlists = await this.$axios.get(`https://api.spotify.com/v1/users/${}/playlists?limit=10`)
+    const playlists = await this.$axios.get(`${SPOTIFY_API}/users/${this.$store.getters['auth/user'].id}/playlists?limit=10`)
     this.total = playlists.data.total
     this.playlists = playlists.data.items
   }

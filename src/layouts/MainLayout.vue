@@ -1,15 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class='bg-grey-10'>
         <q-toolbar-title>
-          Playlist Compiler
+          QuickSet
         </q-toolbar-title>
-        <q-btn
-          flat
-          label="Spotify"
-          @click="redirect()"
-        />
+        <q-toggle :value="$store.getters['style/dark']" @input="toggleDark"  />
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -23,12 +19,11 @@ export default {
   name: 'MainLayout',
   data () {
     return {
-
     }
   },
   methods: {
-    redirect () {
-
+    toggleDark () {
+      this.$store.dispatch('style/toggleDark', { vm: this })
     }
   }
 }
