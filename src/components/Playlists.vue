@@ -48,12 +48,16 @@ export default {
   },
   methods: {
     async grabPlaylist (offset) {
+      this.$q.loading.show({ delay: 400 })
       const playlists = await this.$axios.get(`${SPOTIFY_API}/users/${this.$store.getters['auth/user'].id}/playlists?limit=10&offset=${offset}`)
+      this.$q.loading.hide()
       this.playlists = playlists.data.items
     }
   },
   async created () {
+    this.$q.loading.show({ delay: 400 })
     const playlists = await this.$axios.get(`${SPOTIFY_API}/users/${this.$store.getters['auth/user'].id}/playlists?limit=10`)
+    this.$q.loading.hide()
     this.total = playlists.data.total
     this.playlists = playlists.data.items
   }

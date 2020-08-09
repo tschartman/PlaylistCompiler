@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <q-icon
-                class="clickable"
+                class="clickable back"
                 @click="$emit('goBack')"
                 name="navigate_before"
                 color="blue"
@@ -38,7 +38,9 @@ export default {
   methods: {
   },
   async created () {
+    this.$q.loading.show({ delay: 400 })
     const tracks = await this.$axios.get(`${SPOTIFY_API}/playlists/${this.playlist.id}/tracks`)
+    this.$q.loading.hide()
     this.items = tracks.data.items
   }
 }
@@ -57,6 +59,9 @@ export default {
 }
 .clickable {
     cursor: pointer;
+}
+.back {
+    margin-right: -46px;
 }
 .square {
     max-width: 150px;

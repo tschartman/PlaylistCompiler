@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h4 class="title">Select up to 5 Songs</h4>
         <div v-if="tracks.length > 0" class="flex flex-center">
           <q-scroll-area
               horizontal
@@ -18,13 +17,13 @@
             </div>
           </q-scroll-area>
         </div>
-        <div v-else class="flex flex-center q-pa-md">
+        <div v-else class="flex flex-center q-pa-md skel">
           <q-card class="playlist-card">
             <q-skeleton height="100px" square />
           </q-card>
         </div>
         <div class="flex flex-center">
-            <q-btn flat label='Make Playlist' @click="$emit('makePlaylist')" />
+            <q-btn flat label='Create Mix' @click="$emit('makePlaylist')" />
         </div>
     </div>
 </template>
@@ -52,6 +51,9 @@ export default {
   display: block;
   margin: auto;
   text-align: center;
+}
+.skel {
+  margin-top: 13px;
 }
 .clickable {
     cursor: pointer;

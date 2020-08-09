@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <q-icon
-                class="clickable"
+                class="clickable back"
                 @click="$emit('goBack')"
                 name="navigate_before"
                 color="blue"
@@ -57,9 +57,14 @@ export default {
         const tracks = this.tracks.map(track => track.uri)
         this.$axios.post(`${SPOTIFY_API}/users/${this.$store.getters['auth/user'].id}/playlists`, data).then(res => {
           if (res.status === 201) {
-            this.$axios.post(`${SPOTIFY_API}/playlists/${res.data.id}/tracks`, { uris: tracks })
-            this.$q.notify(alerts[1])
-            this.$emit('goBack')
+            this.$axios.post(`${SPOTIFY_API}/playlists/${res.data.id}/tracks`, { uris: tracks }).then(res => {
+              if (res.status === 201) {
+                this.$q.notify(alerts[1])
+                this.$emit('goBack')
+              } else {
+                this.$q.notify(alerts[0])
+              }
+            })
           } else {
             this.$q.notify(alerts[0])
           }
@@ -84,9 +89,11 @@ export default {
     max-width: 150px;
     max-height: 22px;
 }
+.back {
+  margin-right: -46px;
+}
 .center {
     display: block;
     margin: auto;
-    padding-right: 46px;
 }
 </style>
