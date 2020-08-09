@@ -1,8 +1,3 @@
----
-title: Privacy Policy
-layout: template
-filename: privacy.md
---- 
 **Privacy Policy**
 
 Tim Schartman built the QuickMix app as a Free app. This SERVICE is provided by Tim Schartman at no cost and is intended for use as is.
