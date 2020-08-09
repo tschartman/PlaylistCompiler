@@ -1,8 +1,4 @@
----
-title: Support
-layout: template
-filename: index.md
----
+
 ## QuickMix App Support
 
 Contact Tim Schartman <tschartman@yahoo.com> for inquiries about the current state of the app.
