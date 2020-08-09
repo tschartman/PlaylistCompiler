@@ -1,9 +1,12 @@
 <template>
     <div>
         <h5 class="title">Playlists</h5>
-        <q-scroll-area style="height: 38vh;">
+        <q-scroll-area style="height: 50vh;">
         <div class="flex q-pa-md q-gutter-md justify-center">
           <div v-for="playlist in playlists" :key="playlist.id">
+            <div class="row justify-center">
+              <q-img class="clickable" @click="link(playlist.external_urls.spotify)" :src="$store.getters['style/dark'] ? 'spotify-light.png' : 'spotify.png'" style="width:15px; height:15px;"/>
+            </div>
             <div class="row justify-center text-subtitle2 square">
                 {{ playlist.name }}
             </div>
@@ -13,17 +16,12 @@
           </div>
         </div>
         </q-scroll-area>
-        <div class="q-pa-lg flex flex-center">
+        <div class="q-pa-sm flex flex-center">
           <q-pagination
             v-model="current"
             :color="$store.getters['style/dark'] ? 'grey' : 'black'"
             :max="Math.ceil(this.total / 10)"
-            :direction-links="true"
-            :boundary-links="true"
-            icon-first="skip_previous"
-            icon-last="skip_next"
-            icon-prev="fast_rewind"
-            icon-next="fast_forward"
+            input
           >
             </q-pagination>
         </div>
@@ -47,6 +45,9 @@ export default {
     }
   },
   methods: {
+    link (url) {
+      window.open(url, '_system')
+    },
     async grabPlaylist (offset) {
       this.$q.loading.show({ delay: 400 })
       const playlists = await this.$axios.get(`${SPOTIFY_API}/users/${this.$store.getters['auth/user'].id}/playlists?limit=10&offset=${offset}`)

@@ -1,4 +1,4 @@
-export default function () {
+export const getDefaultState = () => {
   return {
     token: '',
     refresh: '',
@@ -6,3 +6,5 @@ export default function () {
     secret: ''
   }
 }
+
+export default getDefaultState()

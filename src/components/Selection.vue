@@ -7,12 +7,7 @@
           >
             <div class="row no-wrap q-pa-sm q-gutter-md">
                 <div v-for="track in tracks" :key="track.id">
-                    <div class="row justify-center text-subtitle2 square">
-                        {{ track.name }}
-                    </div>
-                    <q-card class="playlist-card" @click="$emit('removeSong', track)">
-                        <q-img :src="track.album.images[0].url" />
-                    </q-card>
+                  <Track :track="track" @select="removeSong(track)" style='height:100px;width:100px;cursor:pointer' />
                 </div>
             </div>
           </q-scroll-area>
@@ -29,14 +24,20 @@
 </template>
 
 <script>
+import Track from './Track'
 export default {
   name: 'Selection',
   props: { tracks: { type: Array } },
+  components: { Track },
   data: function () {
     return {
     }
   },
   methods: {
+    removeSong (track) {
+      this.$emit('removeSong', track)
+    }
+
   }
 }
 

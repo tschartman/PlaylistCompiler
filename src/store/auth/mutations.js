@@ -1,3 +1,4 @@
+import { getDefaultState } from './state'
 
 export function SET_TOKEN (state, payload) {
   state.refresh = payload.refresh
@@ -10,4 +11,8 @@ export function SET_USER (state, payload) {
 
 export function SET_SECRET (state, payload) {
   state.secret = payload.secret
+}
+
+export function CLEAR (state) {
+  Object.assign(state, getDefaultState())
 }

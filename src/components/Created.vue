@@ -10,15 +10,10 @@
             />
             <q-btn flat class="center" color="primary" label='Add to Spotify' @click="createPlaylist" />
         </div>
-        <q-scroll-area style="height: 45vh;">
-        <div class="flex q-pa-md q-gutter-md justify-center">
+        <q-scroll-area style="height: 55vh;">
+        <div class="flex q-pa-md q-gutter-x-md q-gutter-y-xl justify-center">
             <div v-for="track in tracks" :key="track.id">
-                <div class="row justify-center text-subtitle2 square">
-                    {{ track.name }}
-                </div>
-                <q-card class="playlist-card">
-                    <q-img :src="track.album.images[0].url" />
-                </q-card>
+              <Track :track="track"  style='height:150px;width:150px;'/>
             </div>
         </div>
         </q-scroll-area>
@@ -26,6 +21,7 @@
 </template>
 
 <script>
+import Track from './Track'
 import createPlaylistForm from './modals/createPlaylistForm'
 import { SPOTIFY_API } from 'babel-dotenv'
 const alerts = [
@@ -43,6 +39,7 @@ const alerts = [
 export default {
   name: 'Created',
   props: { tracks: { type: Array } },
+  components: { Track },
   data: function () {
     return {
       items: []

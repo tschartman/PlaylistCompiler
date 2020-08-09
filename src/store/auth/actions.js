@@ -36,3 +36,7 @@ export async function setUser (context) {
   const res = await axios.get(`${SPOTIFY_API}/me`)
   context.commit('SET_USER', res.data)
 }
+
+export function clear (context) {
+  context.commit('CLEAR')
+}

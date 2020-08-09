@@ -15,6 +15,7 @@
         </div>
         </q-card-section>
         <q-card-actions align="around">
+          <q-btn v-if="$store.getters['auth/token']" flat class="mr-4" @click="clear" color="negative">Unlink Spotify</q-btn>
           <q-btn flat class="mr-4" @click="hide" color="primary">Ok</q-btn>
         </q-card-actions>
       </q-card>
@@ -33,6 +34,10 @@ export default {
     },
     hide () {
       this.$refs.dialog.hide()
+    },
+    clear () {
+      this.$store.dispatch('auth/clear')
+      this.hide()
     }
   }
 }
