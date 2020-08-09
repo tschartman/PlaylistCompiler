@@ -1,37 +1,7 @@
-## Welcome to GitHub Pages
+## QuickMix App Support
 
-You can use the [editor on GitHub](https://github.com/tschartman/QuickMix/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Contact [Tim Schartman](tschartman@yahoo.com) for inquiries about the current state of the app.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Usage
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/tschartman/QuickMix/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Using the app is pretty simple. Sign into spotify and you can see all of your current playlists. Select up to 5 songs from any of your playlist and click the button to have a new playlist generated that is based on the songs you had selected. You can then export that playlist to your spotify account.
