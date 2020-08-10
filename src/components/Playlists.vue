@@ -10,7 +10,7 @@
             <div class="row justify-center text-subtitle2 square">
                 {{ playlist.name }}
             </div>
-            <q-card class="playlist-card"  @click="$emit('selectPlaylist', playlist)">
+            <q-card class="playlist-card"  @click="$emit('selectPlaylist', playlist, (current * 10) - 10)">
                 <q-img v-if="playlist.images.length > 0" :src="playlist.images[0].url" />
             </q-card>
           </div>
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { SPOTIFY_API } from 'babel-dotenv'
 export default {
   name: 'Playlists',
   data: function () {
@@ -42,6 +41,7 @@ export default {
   watch: {
     current: function (newCurrent) {
       this.grabPlaylist((newCurrent * 10) - 10)
+      this.$store.dispatch('api/setCurrent', { current: newCurrent })
     }
   },
   methods: {
@@ -49,18 +49,22 @@ export default {
       window.open(url, '_system')
     },
     async grabPlaylist (offset) {
-      this.$q.loading.show({ delay: 400 })
-      const playlists = await this.$axios.get(`${SPOTIFY_API}/users/${this.$store.getters['auth/user'].id}/playlists?limit=10&offset=${offset}`)
-      this.$q.loading.hide()
-      this.playlists = playlists.data.items
+      const playlists = this.$store.getters['api/playlists'][offset]
+      if (playlists) {
+        this.playlists = playlists
+        this.$store.dispatch('api/checkPlaylists', { offset: offset, user: this.$store.getters['auth/user'] })
+      } else {
+        this.$q.loading.show({ delay: 400 })
+        await this.$store.dispatch('api/setPlaylists', { offset: offset, user: this.$store.getters['auth/user'] })
+        this.playlists = this.$store.getters['api/playlists'][offset]
+        this.$q.loading.hide()
+      }
     }
   },
   async created () {
-    this.$q.loading.show({ delay: 400 })
-    const playlists = await this.$axios.get(`${SPOTIFY_API}/users/${this.$store.getters['auth/user'].id}/playlists?limit=10`)
-    this.$q.loading.hide()
-    this.total = playlists.data.total
-    this.playlists = playlists.data.items
+    await this.grabPlaylist(0)
+    this.total = this.$store.getters['api/total']
+    this.current = this.$store.getters['api/current']
   }
 }
 

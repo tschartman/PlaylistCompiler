@@ -16,8 +16,10 @@ window.handleOpenURL = function (url) {
 export default {
   name: 'App',
   methods: {
-    listenForCode (data) {
-      this.$store.dispatch('auth/setToken', { code: data.detail.code })
+    async listenForCode (data) {
+      this.$q.loading.show({ delay: 400 })
+      await this.$store.dispatch('auth/setToken', { code: data.detail.code })
+      this.$q.loading.hide()
     }
   },
   created () {

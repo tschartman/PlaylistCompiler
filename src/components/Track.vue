@@ -6,7 +6,7 @@
         <div class="row justify-center text-subtitle2 square">
             {{ track.name }}
         </div>
-        <q-card :style="style" @click="$emit('select', track)">
+        <q-card :style="styles" @click="$emit('select', track)">
             <q-img :src="track.album.images[0].url" />
         </q-card>
     </div>
@@ -14,7 +14,7 @@
 <script>
 export default {
   name: 'Track',
-  props: { track: { type: Object }, style: { type: String } },
+  props: { track: { type: Object }, styles: { type: String } },
   data: function () {
     return {
     }

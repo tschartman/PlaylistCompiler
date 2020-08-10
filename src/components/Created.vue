@@ -13,7 +13,7 @@
         <q-scroll-area style="height: 55vh;">
         <div class="flex q-pa-md q-gutter-x-md q-gutter-y-xl justify-center">
             <div v-for="track in tracks" :key="track.id">
-              <Track :track="track"  style='height:150px;width:150px;'/>
+              <Track :track="track"  styles='height:150px;width:150px;'/>
             </div>
         </div>
         </q-scroll-area>
@@ -52,7 +52,7 @@ export default {
         parent: this
       }).onOk((data) => {
         const tracks = this.tracks.map(track => track.uri)
-        this.$axios.post(`${SPOTIFY_API}/users/${this.$store.getters['auth/user'].id}/playlists`, data).then(res => {
+        this.$axios.post(`${SPOTIFY_API}/users/${this.$store.getters['auth/user']}/playlists`, data).then(res => {
           if (res.status === 201) {
             this.$axios.post(`${SPOTIFY_API}/playlists/${res.data.id}/tracks`, { uris: tracks }).then(res => {
               if (res.status === 201) {

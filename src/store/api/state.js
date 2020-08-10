@@ -1,9 +1,9 @@
 export const getDefaultState = () => {
   return {
-    token: '',
-    refresh: '',
-    user: '',
-    secret: ''
+    playlists: {},
+    tracks: {},
+    total: 0,
+    current: 1
   }
 }
 

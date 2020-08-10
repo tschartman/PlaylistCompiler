@@ -30,7 +30,7 @@
           </form>
         </q-card-section>
         <q-card-actions align="around">
-          <q-btn flat @click="cancel" color="dark">cancel</q-btn>
+          <q-btn flat @click="cancel" color="negative">cancel</q-btn>
           <q-btn flat class="mr-4" @click="submit" color="primary">submit</q-btn>
         </q-card-actions>
       </q-card>

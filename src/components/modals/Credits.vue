@@ -37,6 +37,8 @@ export default {
     },
     clear () {
       this.$store.dispatch('auth/clear')
+      this.$store.dispatch('api/clear')
+      window.sessionStorage.clear()
       this.hide()
     }
   }

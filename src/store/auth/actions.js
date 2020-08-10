@@ -29,12 +29,13 @@ export async function setToken (context, payload) {
 
   delete axios.defaults.headers.common.Authorization
   const res = await axios.post('https://accounts.spotify.com/api/token', qs.stringify(body))
-  context.commit('SET_TOKEN', { refresh: res.data.refresh_token, token: res.data.access_token })
+  await context.commit('SET_TOKEN', { refresh: res.data.refresh_token, token: res.data.access_token })
+  await context.dispatch('setUser')
 }
 
 export async function setUser (context) {
   const res = await axios.get(`${SPOTIFY_API}/me`)
-  context.commit('SET_USER', res.data)
+  context.commit('SET_USER', res.data.id)
 }
 
 export function clear (context) {

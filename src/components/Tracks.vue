@@ -13,7 +13,7 @@
         <q-scroll-area style="height: 55vh;">
         <div class="flex q-pa-md q-gutter-x-md q-gutter-y-xl justify-center">
             <div v-for="item in items" :key="item.track.id">
-                <Track @select="selectSong" :track="item.track" style='height:150px;width:150px;cursor:pointer' />
+                <Track @select="selectSong" :track="item.track" styles='height:150px;width:150px;cursor:pointer' />
             </div>
         </div>
         </q-scroll-area>
@@ -21,11 +21,10 @@
 </template>
 
 <script>
-import { SPOTIFY_API } from 'babel-dotenv'
 import Track from './Track'
 export default {
   name: 'Tracks',
-  props: { playlist: { type: Object } },
+  props: { playlist: { type: Object }, offset: { type: Number } },
   components: { Track },
   data: function () {
     return {
@@ -34,15 +33,21 @@ export default {
   },
   methods: {
     selectSong (song) {
-      console.log(song)
       this.$emit('selectSong', song)
     }
   },
   async created () {
-    this.$q.loading.show({ delay: 400 })
-    const tracks = await this.$axios.get(`${SPOTIFY_API}/playlists/${this.playlist.id}/tracks`)
-    this.$q.loading.hide()
-    this.items = tracks.data.items
+    const tracks = this.$store.getters['api/tracks'][this.playlist.id]
+    if (tracks) {
+      this.items = tracks
+      this.$store.dispatch('api/checkTracks', { id: this.playlist.id })
+      this.$store.dispatch('api/setPlaylists', { offset: this.offset, user: this.$store.getters['auth/user'] })
+    } else {
+      this.$q.loading.show({ delay: 400 })
+      await this.$store.dispatch('api/setTracks', { id: this.playlist.id })
+      this.items = this.$store.getters['api/tracks'][this.playlist.id]
+      this.$q.loading.hide()
+    }
   }
 }
 

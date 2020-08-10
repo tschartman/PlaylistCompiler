@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div v-if="$store.getters['auth/refresh']">
+    <div v-if="$store.getters['auth/user']">
       <Selection @makePlaylist="makePlaylist" @removeSong="removeSong" :tracks="selected" />
       <q-separator />
       <Playlists v-if="page === 'playlists'" @selectPlaylist="selectPlaylist" />
-      <Tracks v-else-if="page === 'tracks'" @goBack="back" @selectSong="selectSong" :playlist="playlist" />
+      <Tracks v-else-if="page === 'tracks'" @goBack="back" @selectSong="selectSong" :offset="offset" :playlist="playlist" />
       <Created v-else-if="page === 'created'" @goBack="back" :tracks="createdList" />
     </div>
     <div v-else>
@@ -17,7 +17,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import pkceChallenge from 'pkce-challenge'
 import { REDIRECT_URI, SPOTIFY_ID, SPOTIFY_API } from 'babel-dotenv'
@@ -37,6 +36,7 @@ export default {
     return {
       page: 'playlists',
       playlist: {},
+      offset: 0,
       selected: [],
       createdList: []
     }
@@ -50,8 +50,9 @@ export default {
         this.page = 'created'
       }
     },
-    selectPlaylist (playlist) {
+    selectPlaylist (playlist, offset) {
       this.playlist = playlist
+      this.offset = offset
       this.page = 'tracks'
     },
     selectSong (song) {
@@ -70,11 +71,6 @@ export default {
       const data = pkceChallenge(length)
       await this.$store.dispatch('auth/setSecret', { secret: data.code_verifier })
       window.location = `https://accounts.spotify.com/authorize?response_type=code&client_id=${SPOTIFY_ID}&code_challenge_method=S256&code_challenge=${data.code_challenge}&scope=playlist-read-collaborative%20playlist-modify-public%20playlist-read-private%20playlist-modify-private&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`
-    }
-  },
-  async created () {
-    if (this.$store.getters['auth/refresh'] && !this.$store.getters['auth/user'].id) {
-      this.$store.dispatch('auth/setUser')
     }
   }
 }
