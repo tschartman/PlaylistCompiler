@@ -11,7 +11,7 @@
             <q-btn flat class="center" color="primary" label='Add to Spotify' @click="createPlaylist" />
         </div>
         <q-scroll-area style="height: 55vh;">
-        <div class="flex q-pa-md q-gutter-x-md q-gutter-y-xl justify-center">
+        <div class="flex q-pa-md q-gutter-md justify-center">
             <div v-for="track in tracks" :key="track.id">
               <Track :track="track"  styles='height:150px;width:150px;'/>
             </div>

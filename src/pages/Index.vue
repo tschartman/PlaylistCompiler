@@ -7,9 +7,9 @@
       <Tracks v-else-if="page === 'tracks'" @goBack="back" @selectSong="selectSong" :offset="offset" :playlist="playlist" />
       <Created v-else-if="page === 'created'" @goBack="back" :tracks="createdList" />
     </div>
-    <div v-else>
+    <div class="align-center" v-else>
       <div class="row justify-center">
-        <q-img class="q-my-lg" :src="$store.getters['style/dark'] ? 'spotify-light.png' : 'spotify.png'" style="width:125px; height:125px;"/>
+        <q-img class="logo" src="spotify-logo.png" style="width:200px; height:60px;"/>
       </div>
       <div class="row justify-center">
         <q-btn flat size="large" label="Link Spotify" v-on:click="redirect()"></q-btn>
@@ -76,3 +76,8 @@ export default {
 }
 
 </script>
+<style scoped>
+.logo {
+  margin: 30px;
+}
+</style>

@@ -3,7 +3,7 @@
         <div v-if="tracks.length > 0" class="flex flex-center">
           <q-scroll-area
               horizontal
-              :style="'height: 150px;' + 'width:' + 125 * tracks.length +'px;'"
+              :style="'height: 160px;' + 'width:' + 125 * tracks.length +'px;'"
           >
             <div class="row no-wrap q-pa-sm q-gutter-md">
                 <div v-for="track in tracks" :key="track.id">

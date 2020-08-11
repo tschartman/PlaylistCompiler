@@ -5,7 +5,7 @@
         <div class="flex q-pa-md q-gutter-md justify-center">
           <div v-for="playlist in playlists" :key="playlist.id">
             <div class="row justify-center">
-              <q-img class="clickable" @click="link(playlist.external_urls.spotify)" :src="$store.getters['style/dark'] ? 'spotify-light.png' : 'spotify.png'" style="width:15px; height:15px;"/>
+              <q-img class="clickable" @click="link(playlist.external_urls.spotify)" src="spotify-icon.png" style="width:25px; height:25px;"/>
             </div>
             <div class="row justify-center text-subtitle2 square">
                 {{ playlist.name }}

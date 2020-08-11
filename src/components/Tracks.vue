@@ -11,7 +11,7 @@
             <h5 class="title">{{ playlist.name }}</h5>
         </div>
         <q-scroll-area style="height: 55vh;">
-        <div class="flex q-pa-md q-gutter-x-md q-gutter-y-xl justify-center">
+        <div class="flex q-pa-md q-gutter-md justify-center">
             <div v-for="item in items" :key="item.track.id">
                 <Track @select="selectSong" :track="item.track" styles='height:150px;width:150px;cursor:pointer' />
             </div>
