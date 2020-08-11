@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <q-page class="full-height">
     <div v-if="$store.getters['auth/user']">
       <Selection @makePlaylist="makePlaylist" @removeSong="removeSong" :tracks="selected" />
       <q-separator />
@@ -7,7 +7,7 @@
       <Tracks v-else-if="page === 'tracks'" @goBack="back" @selectSong="selectSong" :offset="offset" :playlist="playlist" />
       <Created v-else-if="page === 'created'" @goBack="back" :tracks="createdList" />
     </div>
-    <div class="align-center" v-else>
+    <div class="height" v-else>
       <div class="row justify-center">
         <q-img class="logo" src="spotify-logo.png" style="width:200px; height:60px;"/>
       </div>
@@ -15,7 +15,7 @@
         <q-btn flat size="large" label="Link Spotify" v-on:click="redirect()"></q-btn>
       </div>
     </div>
-  </div>
+  </q-page>
 </template>
 <script>
 import pkceChallenge from 'pkce-challenge'
@@ -70,7 +70,8 @@ export default {
       const length = Math.floor((Math.random() * (128 - 43)) + 43)
       const data = pkceChallenge(length)
       await this.$store.dispatch('auth/setSecret', { secret: data.code_verifier })
-      window.location = `https://accounts.spotify.com/authorize?response_type=code&client_id=${SPOTIFY_ID}&code_challenge_method=S256&code_challenge=${data.code_challenge}&scope=playlist-read-collaborative%20playlist-modify-public%20playlist-read-private%20playlist-modify-private&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`
+      const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${SPOTIFY_ID}&code_challenge_method=S256&code_challenge=${data.code_challenge}&scope=playlist-read-collaborative%20playlist-modify-public%20playlist-read-private%20playlist-modify-private&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`
+      window.open(url, '_system')
     }
   }
 }
@@ -79,5 +80,10 @@ export default {
 <style scoped>
 .logo {
   margin: 30px;
+}
+.height {
+  height: 80vh;
+  display: grid;
+  align-content: center;
 }
 </style>
