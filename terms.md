@@ -2,7 +2,7 @@
 
 By downloading or using the app, these terms will automatically apply to you – you should make sure therefore that you read them carefully before using the app. You’re not allowed to copy, or modify the app, any part of the app, or our trademarks in any way. You’re not allowed to attempt to extract the source code of the app, and you also shouldn’t try to translate the app into other languages, or make derivative versions. The app itself, and all the trade marks, copyright, database rights and other intellectual property rights related to it, still belong to Tim Schartman.
 
-You must be at lease 18 years of age to use and access a Spotify account through the app. By downloading and linking your spotify account you agree that you will not:
+You must be at least 18 years of age to use and access a Spotify account through the app. By downloading and linking your spotify account you agree that you will not:
 
 a. make any warranties or representations on behalf of Spotify and expressly disclaim all implied warranties with respect to the Spotify Platform, Spotify Service and Spotify Content, including the implied warranties of merchantability, fitness for a particular purpose and non-infringement;
 
